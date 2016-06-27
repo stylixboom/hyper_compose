@@ -4,21 +4,21 @@ The scripts were created to launch the Hyperledger nodes on 1VM and also clean u
 
 ## Supported configuration
 
-### Noops/Noops, N = 1/2/4 nodes
+### 1. Noops/Noops, N = 1/2/4 nodes
 ```sh
 create_Nvp.sh
 ```
-### Noops/Consensus, N = 4/5/6 nodes
+### 2. Noops/Consensus, N = 4/5/6 nodes
 ```sh
 create_Nvp_noops.sh
 ```
 
-### PBFT/Consensus, N = 4/5/6 nodes
+### 3. PBFT/Consensus, N = 4/5/6 nodes
 ```sh
 create_Nvp_sieve.sh
 ```
 
-### PBFT/Consensus/Member, N = 4/5/6 nodes
+### 4. PBFT/Consensus/Member, N = 4/5/6 nodes
 ```sh
 create_Nvp_sieve-member.sh
 ```
