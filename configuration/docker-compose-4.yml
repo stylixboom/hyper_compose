@@ -1,0 +1,46 @@
+vp0:
+  extends:
+    file: compose-defaults.yml
+    service: vp
+  ports:
+    - "5000:5000"   # Openchain REST services    
+    - "30303:30303" # Openchain gRPC services
+    - "31315:31315" # GRPCCient gRPC services
+  environment:
+    - CORE_PEER_ID=vp0
+
+vp1:
+  extends:
+    file: compose-defaults.yml
+    service: vp
+  ports:
+    - "5001:5000"   # Openchain REST services 
+  environment:
+    - CORE_PEER_ID=vp1
+    - CORE_PEER_DISCOVERY_ROOTNODE=vp0:30303
+  links:
+    - vp0
+
+vp2:
+  extends:
+    file: compose-defaults.yml
+    service: vp
+  ports:
+    - "5002:5000"   # Openchain REST services 
+  environment:
+    - CORE_PEER_ID=vp2
+    - CORE_PEER_DISCOVERY_ROOTNODE=vp0:30303
+  links:
+    - vp0
+
+vp3:
+  extends:
+    file: compose-defaults.yml
+    service: vp
+  ports:
+    - "5003:5000"   # Openchain REST services 
+  environment:
+    - CORE_PEER_ID=vp3
+    - CORE_PEER_DISCOVERY_ROOTNODE=vp0:30303
+  links:
+    - vp0

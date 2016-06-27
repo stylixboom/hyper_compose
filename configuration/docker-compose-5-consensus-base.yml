@@ -1,0 +1,45 @@
+vpBase:
+  extends:
+    file: compose-defaults.yml
+    service: vpPbft
+  environment:
+    - CORE_SECURITY_ENABLED=false
+    # TODO: Currently required due to issue reading obbca configuration location
+    - CORE_PBFT_GENERAL_N=5
+    # The checkpoint interval in sequence numbers
+    - CORE_PBFT_GENERAL_K=2
+
+vpNoops:
+  extends:
+    file: compose-defaults.yml
+    service: vp
+  environment:
+    - CORE_PEER_VALIDATOR_CONSENSUS_PLUGIN=noops
+    - CORE_NOOPS_BLOCK_SIZE=1
+    - CORE_NOOPS_BLOCK_TIMEOUT=1s
+    
+vpSieve:
+  extends:
+    service: vpBase
+  environment:
+    - CORE_PEER_VALIDATOR_CONSENSUS_PLUGIN=pbft
+    - CORE_PBFT_GENERAL_TIMEOUT_REQUEST=10s
+    - CORE_PBFT_GENERAL_MODE=sieve
+
+vpClassic:
+  extends:
+    service: vpBase
+  environment:
+    - CORE_PEER_VALIDATOR_CONSENSUS_PLUGIN=pbft
+    - CORE_PBFT_GENERAL_TIMEOUT_REQUEST=10s
+    - CORE_PBFT_GENERAL_MODE=classic
+
+vpBatch:
+  extends:
+    service: vpBase
+  environment:
+    - CORE_PEER_VALIDATOR_CONSENSUS_PLUGIN=pbft
+    - CORE_PBFT_GENERAL_TIMEOUT_REQUEST=10s
+    - CORE_PBFT_GENERAL_MODE=batch
+    # TODO: This is used for testing as to assure deployment goes through to block
+    - CORE_PBFT_GENERAL_BATCHSIZE=1

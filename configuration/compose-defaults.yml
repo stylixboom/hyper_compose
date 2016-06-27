@@ -1,0 +1,31 @@
+vpPbft:
+  image: stylix/hyperledger-peer:pbft
+  volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    - /hyperledger/chaincode:/go/src/chaincode
+    - /hyperledger/compose:/var/hyperledger/compose
+    #- /hyperledger:/var/hyperledger
+  environment:
+    - CORE_PEER_ADDRESSAUTODETECT=true
+    # TODO:  This is currently required due to BUG in variant logic based upon log level.
+    - CORE_LOGGING_LEVEL=DEBUG
+  # Startup of peer must be delayed to allow membersrvc to come up first
+  command: sh -c "sleep 10; peer node start"
+
+vp:
+  image: stylix/hyperledger-peer:noops
+  volumes:
+    - /var/run/docker.sock:/var/run/docker.sock
+    - /hyperledger/chaincode:/go/src/chaincode
+    - /hyperledger/compose:/var/hyperledger/compose
+    #- /hyperledger:/var/hyperledger
+  environment:
+    - CORE_PEER_ADDRESSAUTODETECT=true
+    # TODO:  This is currently required due to BUG in variant logic based upon log level.
+    - CORE_LOGGING_LEVEL=DEBUG
+  # Startup of peer must be delayed to allow membersrvc to come up first
+  command: sh -c "sleep 10; peer node start"
+
+membersrvc:
+   image: stylix/hyperledger-membersrvc
+   command: membersrvc
